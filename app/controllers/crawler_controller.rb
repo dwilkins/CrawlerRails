@@ -53,16 +53,18 @@ class CrawlerController < ApplicationController
   @arduino = nil
   @arduino_file = "/dev/ttyUSB0"
   def arduino_command command
-    retval = ""
-    SerialPort.open("/dev/ttyUSB0", {baudrate: 115200, databits: 8, stopbits: 1}) do |f|
-      # f.rts = 0
-      # f.dtr = 0
-      # sleep 2
-      # f.rts = 1
-      # f.dtr = 1
-      f.read_timeout = -1
-      f.write command + "\n"
-      retval = f.read
+    retval = "@arduino_file does not exist"
+    if File.exists? "/dev/ttyUSB0"
+      SerialPort.open("/dev/ttyUSB0", {baudrate: 115200, databits: 8, stopbits: 1}) do |f|
+        # f.rts = 0
+        # f.dtr = 0
+        # sleep 2
+        # f.rts = 1
+        # f.dtr = 1
+        f.read_timeout = -1
+        f.write command + "\n"
+        retval = f.read
+      end
     end
     retval
   end

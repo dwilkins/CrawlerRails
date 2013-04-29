@@ -61,7 +61,7 @@ CrawlerRails::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => {controller: 'crawler', action: 'index'}
+  root :to => 'crawler#index'
 
   # See how all your routes lay out with "rake routes"
 

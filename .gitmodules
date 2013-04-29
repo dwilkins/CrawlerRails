@@ -1,0 +1,6 @@
+[submodule "app/assets/javascripts/virtualjoystick"]
+	path = app/assets/javascripts/virtualjoystick
+	url = git@github.com:dwilkins/virtualjoystick.js.git
+[submodule "app/assets/javascripts/microevents"]
+	path = app/assets/javascripts/microevents
+	url = git://github.com/jeromeetienne/microevent.js.git

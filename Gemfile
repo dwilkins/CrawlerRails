@@ -16,9 +16,13 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
 
+  gem 'compass-rails'
+  gem 'compass_twitter_bootstrap', git: 'git://github.com/vwall/compass-twitter-bootstrap.git'
+
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'haml-rails'
 gem 'jquery-rails'
 gem 'serialport', git: "git://github.com/hparra/ruby-serialport.git"
 

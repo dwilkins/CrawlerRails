@@ -1,0 +1,12 @@
+%h1 Crawler#turn
+- if @direction
+  %h2
+    Direction is set to #{@direction}
+- else
+  %h2 No direction set please try again with direction = left or right
+- if @position
+  %h2
+    Position is set to #{@position}
+- else
+  %h2 No position set please try again with 0 <= position <= 1
+%h2= @message
