@@ -36,6 +36,7 @@ window.Crawler = class Crawler
     @move_y = 0
     @moving = false
     @command_pending = false
+    @important_command = ''
     @max_x_distance = 200
     @max_y_distance = 200
     @min_x_distance = 20
@@ -86,7 +87,7 @@ window.Crawler = class Crawler
     [@start_x, @start_y] = [x,y]
     [@move_x, @move_y] = [x,y]
     @last_x_distance = @last_y_distance = 0
-#    console.log "on_start_move ",x,y
+    console.log "on_start_move ",x,y
 
   on_stop_move: (x,y) ->
     @moving = false
@@ -131,14 +132,14 @@ window.Crawler = class Crawler
     @send_steering_command steering
 
   send_stop_command: () ->
-    command = "/crawler/stop"
+    url = "/crawler/stop"
+    $.get url,undefined ,(data,text_status) =>
     console.log command
 
   send_drive_train_command: (params) ->
     if @command_pending || ((params.direction == @last_drive_train.direction) && ((params.distance < @last_drive_train.distance + @min_y_distance) && (params.distance > @last_drive_train.distance - @min_y_distance)))
       return
     if @command_pending
-      console.log "Pending ------------ #{@last_command} is still pending"
       return
     if params.direction != @last_drive_train.direction
       @last_drive_train.direction = params.direction
@@ -156,7 +157,6 @@ window.Crawler = class Crawler
     @command_pending = true
     $.get url, data,(data,text_status) =>
       @finished(data,text_status)
-    console.log @last_command
 
   finished: (data,text_status) ->
     @last_response = data
@@ -166,7 +166,6 @@ window.Crawler = class Crawler
     if((params.direction == @last_steering.direction) && (params.distance > @last_steering.distance - @min_x_distance) && (params.distance < @last_steering.distance + @min_x_distance))
       return
     if @command_pending
-      console.log "Pending ------------ #{@last_command} is still pending"
       return
     @last_steering.direction = params.direction
     @last_steering.position = params.position
@@ -180,7 +179,6 @@ window.Crawler = class Crawler
     @command_pending = true
     $.get url, data,(data,text_status) =>
       @finished(data,text_status)
-    console.log @last_command
 
   apply_sign: (x,num = 1) ->
     sign =
