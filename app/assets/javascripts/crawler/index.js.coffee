@@ -89,7 +89,7 @@ window.Crawler = class Crawler
     @last_x_distance = @last_y_distance = 0
     console.log "on_start_move ",x,y
 
-  on_stop_move: (x,y) ->
+  on_stop_move: ->
     @moving = false
     @send_stop_command()
     console.log "on_stop_move "
