@@ -15,8 +15,8 @@
     crawler.on_move x,y
   joystick.bind '_onDown', (x,y) =>
     crawler.on_start_move(x,y)
-  joystick.bind '_onUp', =>
-    crawler.on_stop_move
+  joystick.bind '_onUp', () =>
+    crawler.on_stop_move()
 
 window.Crawler = class Crawler
   constructor: ->
@@ -134,7 +134,7 @@ window.Crawler = class Crawler
   send_stop_command: () ->
     url = "/crawler/stop"
     $.get url,undefined ,(data,text_status) =>
-    console.log command
+    console.log url
 
   send_drive_train_command: (params) ->
     if @command_pending || ((params.direction == @last_drive_train.direction) && ((params.distance < @last_drive_train.distance + @min_y_distance) && (params.distance > @last_drive_train.distance - @min_y_distance)))
