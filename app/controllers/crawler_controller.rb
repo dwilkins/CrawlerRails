@@ -2,6 +2,7 @@ class CrawlerController < ApplicationController
 
   respond_to :html, :json
   def index
+#	`/usr/bin/stty 115200 raw < /dev/ttyUSB0`
   end
 
   # dir/:direction
@@ -55,17 +56,15 @@ class CrawlerController < ApplicationController
   def arduino_command command
     retval = "@arduino_file does not exist"
     if File.exists? "/dev/ttyUSB0"
-      SerialPort.open("/dev/ttyUSB0", {baudrate: 115200, databits: 8, stopbits: 1}) do |f|
-        # f.rts = 0
-        # f.dtr = 0
-        # sleep 2
-        # f.rts = 1
-        # f.dtr = 1
-        f.read_timeout = -1
+      SerialPort.open("/dev/ttyUSB0", {baud: 300, databits: 8, stopbits: 1}) do |f|
+	f.baud = 115200
+        f.flow_control = SerialPort::NONE
+        f.read_timeout = -1 
         f.write command + "\n"
         retval = f.read
       end
     end
+    Rails.logger.info(retval)
     retval
   end
 

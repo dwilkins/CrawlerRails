@@ -22,18 +22,18 @@ window.Crawler = class Crawler
   constructor: ->
     @last_drive_train = {
       direction: 'unknown',
-      speed: 0,
-      distance: 0
+      speed: -1,
+      distance: 100000
     }
     @last_steering = {
       direction: 'unknown'
-      position: 0,
-      distance: 0
+      position: -1,
+      distance: 100000
       }
     @start_x = 0
     @start_y = 0
-    @move_x = 0
-    @move_y = 0
+    @move_x = -1
+    @move_y = -1
     @moving = false
     @command_pending = false
     @important_command = ''
