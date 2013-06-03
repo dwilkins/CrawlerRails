@@ -48,6 +48,13 @@ class CrawlerController < ApplicationController
       format.json { render text: @message }
     end
   end
+  # string/:command_string
+  def omni
+    @message = arduino_command params[:command_string]
+    respond_with(@message) do |format|
+      format.json { render text: @message }
+    end
+  end
 
   private
 
@@ -59,7 +66,7 @@ class CrawlerController < ApplicationController
       SerialPort.open("/dev/ttyUSB0", {baud: 300, databits: 8, stopbits: 1}) do |f|
 	f.baud = 115200
         f.flow_control = SerialPort::NONE
-        f.read_timeout = -1 
+        f.read_timeout = -1
         f.write command + "\n"
         retval = f.read
       end

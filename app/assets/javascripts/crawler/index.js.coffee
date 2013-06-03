@@ -35,7 +35,6 @@ window.Crawler = class Crawler
     @move_x = -1
     @move_y = -1
     @moving = false
-    @command_pending = false
     @important_command = ''
     @max_x_distance = 200
     @max_y_distance = 200
@@ -128,13 +127,26 @@ window.Crawler = class Crawler
       else
         'right'
     steering.position = Math.abs(@last_x_distance) / @max_x_distance
-    @send_drive_train_command drive_train
-    @send_steering_command steering
+    @send_omni_command drive_train, steering
+#    @send_drive_train_command drive_train
+#    @send_steering_command steering
 
   send_stop_command: () ->
     url = "/crawler/stop"
     $.get url,undefined ,(data,text_status) =>
-    console.log url
+      console.log url
+
+  send_omni_command: (drive_train, steering) ->
+    if @command_pending == true
+      @command_pending = false
+      return
+    data = "turn #{steering.direction} #{steering.position};dir #{drive_train.direction};speed #{drive_train.speed;}"
+    url = '/crawler/omni.json'
+    @command_pending = true
+    jQuery.get url, {command_string: data}, ->
+      @command_pending = false
+
+
 
   send_drive_train_command: (params) ->
     if @command_pending || ((params.direction == @last_drive_train.direction) && ((params.distance < @last_drive_train.distance + @min_y_distance) && (params.distance > @last_drive_train.distance - @min_y_distance)))

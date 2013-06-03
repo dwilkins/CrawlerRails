@@ -1,6 +1,7 @@
 CrawlerRails::Application.routes.draw do
 #  get "crawler/dir/:direction"
   match 'crawler/dir(/:direction)' => 'crawler#dir'
+  match 'crawler/omni(.:format)(/:command_string)' => 'crawler#omni'
 
 #  get "crawler/speed/:speed"
   match "crawler/speed(/:speed)" => 'crawler#speed'
