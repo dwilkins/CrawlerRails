@@ -61,8 +61,8 @@ class CrawlerController < ApplicationController
   @@arduino = nil
   @@arduino_file = "/dev/ttyUSB0"
   def old_arduino_command command
+    retval = "@arduino_file does not exist"
     if File.exists? "/dev/ttyUSB0"
-      retval = "@arduino_file does not exist"
       SerialPort.open("/dev/ttyUSB0", {baud: 300, databits: 8, stopbits: 1}) do |f|
 	f.baud = 115200
         f.flow_control = SerialPort::NONE
