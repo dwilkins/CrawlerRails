@@ -13,6 +13,8 @@ CrawlerRails::Application.routes.draw do
 
   get "crawler/index"
 
+  get "crawler/slider"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -62,7 +64,7 @@ CrawlerRails::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'crawler#index'
+  root :to => 'crawler#slider'
 
   # See how all your routes lay out with "rake routes"
 

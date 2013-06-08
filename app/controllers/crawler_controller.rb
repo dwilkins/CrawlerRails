@@ -2,7 +2,8 @@ class CrawlerController < ApplicationController
 
   respond_to :html, :json
   def index
-#	`/usr/bin/stty 115200 raw < /dev/ttyUSB0`
+  end
+  def slider
   end
 
   # dir/:direction

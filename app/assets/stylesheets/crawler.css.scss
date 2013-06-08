@@ -3,14 +3,132 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 html,body {
+    font-family: Helvetica, sans-serif;
+    margin: 0;
     height: 100%;
     width: 100%;
 }
 
-#crawler-js-container {
+#crawler-js-container, #slider-js-container {
     width: 100%;
-    height: 100%;
+    height: 80%;
+    h1 {
+        text-align: center;
+        padding-top: 10px;
+        font-size: 5em;
+    }
+    input[type='range']::-webkit-slider-thumb {
+        -webkit-border-image: url(asset_path('slider-border.png', image));
+        -webkit-border-radius: 60px;
+        border: 40px outset transparent;
+    }
+    h1 {
+        position: absolute;
+        top: 10px;;
+        width: 100%;
+        text-align: center;
+    }
+    #speed-controls {
+        height: 100%;
+        #vslider-container {
+            width: 20%;
+            height: 80%;
+            text-align: center;
+            #speed {
+                -webkit-appearance: slider-vertical;
+                height: 100%;
+            }
+            h2 {
+                text-align: center;
+            }
+        }
+        h1 {
+            top: 40%;
+        }
+    }
+    h2.left {
+        float: left;
+        padding-left: 5px;
+        width: 30%;
+    }
+    h2.right {
+        float: right;
+        text-align: right;
+        padding-right: 5px;
+        width: 30%;
+    }
+    h2.center {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        clear: both;
+    }
 }
 
 #crawler-js {
 }
+
+#slider-js {
+    height: 100%;
+}
+
+
+#steering-controls {
+    position: absolute;
+    width: 100%;
+    bottom: 40px;
+}
+#steering {
+    -webkit-appearance: slider-horizontal;
+    width: 100%;
+    height: 10%;
+}
+
+
+h1.bottom {
+    position: relative;
+    width: 100%;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    bottom: 10px;
+}
+
+
+/*
+input[type='range'] {
+    -webkit-appearance: none !important;
+    -webkit-border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px #333;
+    background-color: #999;
+    display: block;
+    height: 10px;
+    left: 10px;
+    margin: 20px;
+    position: absolute;
+    right: 10px;
+}
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    -webkit-border-radius: 10px;
+    background-color: #AAA;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#EEE), to(#AAA));
+    border: 1px solid #999;
+    height: 44px;
+    width: 44px;
+}
+#range {
+    display: block;
+    font-size: 200%;
+    font-weight: bold;
+    margin: 20px;
+    text-align: center;
+}
+p {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    font-size: 10px;
+    right: 10px;
+    text-align: center;
+}
+*/
