@@ -97,6 +97,7 @@ class CrawlerController < ApplicationController
         rescue Exception => e
         end
       end
+    end
     if@@arduino.nil? || @@arduino.closed?
       @@arduino = nil
       return retval
