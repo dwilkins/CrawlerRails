@@ -1,4 +1,10 @@
 class CrawlerController < ApplicationController
+  before_filter :set_as_private
+
+  def set_as_private
+    expires_now
+  end
+
   respond_to :html, :json
   def index
   end
@@ -74,20 +80,25 @@ class CrawlerController < ApplicationController
     Rails.logger.info(retval)
     retval
   end
-
   def arduino_command command
-    Rails.logger.error("-------------------------------Command time!")
-    if @@arduino.nil? && File.exists?("/dev/ttyUSB0")
-      Rails.logger.error("*****************************Opening the Serial Port...")
-      @@arduino = SerialPort.new("/dev/ttyUSB0", {baud: 300, databits: 8, stopbits: 1})
-      Rails.logger.error("*****************************Opened the Serial Port...")
-      @@arduino.baud = 115200
-      @@arduino.flow_control = SerialPort::NONE
-      @@arduino.read_timeout = 50
-    elsif @@arduino
-      Rails.logger.error("Yay!!!! Serialport stayed open......")
-    end
-    if@@arduino.nil?
+    candidate_files = ["/dev/ttyUSB0","/dev/ttyUSB1","/dev/ttyACM0"]
+    retval = "@arduino_file does not exist"
+    if @@arduino.nil? || @@arduino.closed?
+      candidate_files.each do |cf|
+        begin
+          if File.exists?(cf)
+            Rails.logger.error("*****************************Opening the Serial Port...#{cf}")
+            @@arduino = SerialPort.new("/dev/ttyUSB0", {baud: 300, databits: 8, stopbits: 1})
+            @@arduino.baud = 115200
+            @@arduino.flow_control = SerialPort::NONE
+            @@arduino.read_timeout = 50
+            break
+          end
+        rescue Exception => e
+        end
+      end
+    if@@arduino.nil? || @@arduino.closed?
+      @@arduino = nil
       return retval
     end
     @@arduino.write command + "\n"

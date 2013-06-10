@@ -8,8 +8,11 @@ window.SliderMover = class SliderMover
     @command_pending = false
   move_crawler: =>
     if @command_pending == true
-      return
-    @command_pending = true
+      console.log "Command still pending..."
+      if @skip_count-- > 0
+        return true
+    else
+      @command_pending = true
     drive_train = {}
     steering = {}
     speedValue = ($ '#speed')[0].value
@@ -42,9 +45,10 @@ window.SliderMover = class SliderMover
       data += ";stop;"
     else
     data += ";dir #{drive_train.direction};speed #{drive_train.speed};"
-    if (@last_command == data) && (@skip_count > 0)
-      @command_pending = false
-      return true
+    if @last_command == data
+      if @skip_count-- > 0
+        @command_pending = false
+        return true
     console.log "Doing it!!!"
     @skip_count = @same_command_skip_count
     @last_command = data
