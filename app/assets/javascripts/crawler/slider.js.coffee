@@ -4,7 +4,9 @@ window.SliderMover = class SliderMover
     @go_url = '/crawler/omni.json'
     @stop_url = "/crawler/stop"
     @skip_count = 0
-    @same_command_skip_count = 10
+    @same_command_skip_count = 2
+    @same_command_min_skip_count = 2
+    @same_command_max_skip_count = 20
     @command_pending = false
   move_crawler: =>
     if @command_pending == true
@@ -47,8 +49,12 @@ window.SliderMover = class SliderMover
     data += ";dir #{drive_train.direction};speed #{drive_train.speed};"
     if @last_command == data
       if @skip_count-- > 0
+        if @same_command_skip_count < @same_command_max_skip_count
+          @same_command_skip_count += 1
         @command_pending = false
         return true
+    else
+      @same_command_skip_count = @same_command_min_skip_count
     console.log "Doing it!!!"
     @skip_count = @same_command_skip_count
     @last_command = data
