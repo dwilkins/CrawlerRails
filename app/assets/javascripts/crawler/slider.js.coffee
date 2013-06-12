@@ -46,7 +46,7 @@ window.SliderMover = class SliderMover
     if drive_train.speed == 0
       data += ";stop;"
     else
-    data += ";dir #{drive_train.direction};speed #{drive_train.speed};"
+      data += ";dir #{drive_train.direction};speed #{drive_train.speed};"
     if @last_command == data
       if @skip_count-- > 0
         if @same_command_skip_count < @same_command_max_skip_count

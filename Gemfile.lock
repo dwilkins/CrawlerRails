@@ -4,13 +4,6 @@ GIT
   specs:
     serialport (1.1.0)
 
-GIT
-  remote: git://github.com/vwall/compass-twitter-bootstrap.git
-  revision: 41f5acdc1667303abeeb80214e058b191d0d9a46
-  specs:
-    compass_twitter_bootstrap (2.3.1)
-      compass
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -133,7 +126,6 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
   compass-rails
-  compass_twitter_bootstrap!
   haml-rails
   jquery-rails
   rails (= 3.2.13)

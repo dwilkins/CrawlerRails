@@ -136,14 +136,13 @@ window.Crawler = class Crawler
     $.get url,undefined ,(data,text_status) =>
       console.log url
 
-  send_omni_command: (drive_train, steering) ->
+  send_omni_command: (drive_train, steering) =>
     if @command_pending == true
-      @command_pending = false
       return
     data = "turn #{steering.direction} #{steering.position};dir #{drive_train.direction};speed #{drive_train.speed;}"
     url = '/crawler/omni.json'
     @command_pending = true
-    jQuery.get url, {command_string: data}, ->
+    jQuery.get url, {command_string: data}, =>
       @command_pending = false
 
 
