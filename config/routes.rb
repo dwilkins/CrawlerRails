@@ -15,6 +15,9 @@ CrawlerRails::Application.routes.draw do
 
   get "crawler/slider"
 
+  match 'crawler/image(.:format)' => 'crawler#image', as: :crawler_image
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

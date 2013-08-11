@@ -62,6 +62,21 @@ class CrawlerController < ApplicationController
     end
   end
 
+
+  def image
+    respond_with() do |format|
+      format.jpg {
+        `/usr/bin/fswebcam -d /dev/video0 #{Rails.root}/tmp/camera.jpg`
+        send_file "#{Rails.root}/tmp/camera.jpg", :type => 'image/jpeg', :disposition => 'inline'
+      }
+      format.jpg {
+        `/usr/bin/fswebcam -d /dev/video0 #{Rails.root}/tmp/camera.png`
+        send_file "#{Rails.root}/tmp/camera.png", :type => 'image/png', :disposition => 'inline'
+      }
+    end
+  end
+
+
   private
 
   @@arduino = nil

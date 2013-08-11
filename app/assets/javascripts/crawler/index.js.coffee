@@ -135,6 +135,7 @@ window.Crawler = class Crawler
     url = "/crawler/stop"
     $.get url,undefined ,(data,text_status) =>
       console.log url
+    $("#crawler-js-container").attr("style","background-repeat: no-repeat;background-position: center; background-image: url(/crawler/image.jpg)")
 
   send_omni_command: (drive_train, steering) =>
     if @command_pending == true
