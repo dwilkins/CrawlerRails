@@ -1,17 +1,17 @@
 #slider-js-container
   #slider-js
-    %h1.top
+    %h1.text-center.top
       Slider Controls
     #speed-controls
       #vslider-container
-        %h2 Forward
+        %h3 Forward
         %input#speed{type: "range",  min: "-100",  max: "100"}
-          %h2 Reverse
-      %h1.bottom
+          %h3 Reverse
+      %h2.center
         = link_to "Switch to Joystick",crawler_index_path
     #steering-controls
-      %h2.left &lt;&lt; Turn Left
-      %h2.right Turn Right &gt;&gt;
+      %h4.left &lt;&lt; Turn Left
+      %h4.right Turn Right &gt;&gt;
       %input#steering{type: "range",  min: "-100",  max: "100"}
 
 

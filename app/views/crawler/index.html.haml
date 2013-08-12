@@ -2,11 +2,26 @@
   #crawler-js
     %h1.top
       Joystick Controls
-    %h1.bottom
-      = link_to "Switch to Slider",crawler_slider_path
-
+    .outer
+      .inner
+        %img.background-image{src: '/crawler/image.jpg'}
+  %h1.js-bottom
+    = link_to "Switch to Slider",crawler_slider_path
 
 = javascript_include_tag "virtualjoystick/virtualjoystick.js"
 = javascript_include_tag "microevents/microevent.js"
 = javascript_include_tag "#{controller.controller_name}/#{controller.action_name}"
 
+:javascript
+  $('document').ready(function () {
+  window.load_delay = 300;
+  function refresh_image() {
+    d = new Date()
+    current_time = d.getTime();
+    $(".background-image").attr("src","/crawler/image.jpg?" + d.getTime())
+  }
+  $(".background-image").on("load", function () {
+    setTimeout(refresh_image,window.load_delay);
+    });
+  refresh_image();
+  });

@@ -6,7 +6,7 @@
   MicroEvent.mixin VirtualJoystick
   crawler = new Crawler()
   joystick = new VirtualJoystick({
-    container	: document.getElementById('crawler-js-container'),
+    container	: document.getElementById('crawler-js'),
     baseElement: crawler.base_element(),
     stickElement: crawler.stick_element(),
     mouseSupport : true
@@ -43,6 +43,7 @@ window.Crawler = class Crawler
     @last_command = ''
     @last_response = ''
     @debug_element = ''
+    @last_image_time = 0
 
 
   base_element: ->
@@ -135,7 +136,15 @@ window.Crawler = class Crawler
     url = "/crawler/stop"
     $.get url,undefined ,(data,text_status) =>
       console.log url
-    $("#crawler-js-container").attr("style","background-repeat: no-repeat;background-position: center; background-image: url(/crawler/image.jpg)")
+    window.load_delay = 300;
+
+  refresh_image: () ->
+    d = new Date()
+    current_time = d.getTime();
+    if current_time > @last_image_time + 3000
+      @last_image_time = current_time
+      $(".background-image").attr("src","/crawler/image.jpg?" + d.getTime())
+
 
   send_omni_command: (drive_train, steering) =>
     if @command_pending == true
@@ -145,6 +154,7 @@ window.Crawler = class Crawler
     @command_pending = true
     jQuery.get url, {command_string: data}, =>
       @command_pending = false
+    window.load_delay = 800;
 
 
 
