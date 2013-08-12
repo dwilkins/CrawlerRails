@@ -136,7 +136,7 @@ window.Crawler = class Crawler
     url = "/crawler/stop"
     $.get url,undefined ,(data,text_status) =>
       console.log url
-    window.load_delay = 300;
+    window.load_delay = 1000;
 
   refresh_image: () ->
     d = new Date()
@@ -154,7 +154,7 @@ window.Crawler = class Crawler
     @command_pending = true
     jQuery.get url, {command_string: data}, =>
       @command_pending = false
-    window.load_delay = 800;
+    window.load_delay = 1500;
 
 
 
