@@ -63,39 +63,10 @@ class CrawlerController < ApplicationController
   end
 
 
-  def image
-    respond_with() do |format|
-      format.jpg {
-        expires_now()
-        send_data `/usr/bin/fswebcam -d /dev/video0 -S 2 --quiet --jpeg -1 -` , filename: 'image.jpg', :type => 'image/jpeg', :disposition => 'inline'
-      }
-      format.png {
-        `/usr/bin/fswebcam -d /dev/video0 #{Rails.root}/tmp/camera.png`
-        expires_now()
-        send_data `/usr/bin/fswebcam -d /dev/video0 -S 2 --quiet --png -1 -` , filename: 'image.png', :type => 'image/jpeg', :disposition => 'inline'
-      }
-    end
-  end
-
-
   private
 
   @@arduino = nil
   @@arduino_file = "/dev/ttyUSB0"
-  def old_arduino_command command
-    retval = "@arduino_file does not exist"
-    if File.exists? "/dev/ttyUSB0"
-      SerialPort.open("/dev/ttyUSB0", {baud: 300, databits: 8, stopbits: 1}) do |f|
-	f.baud = 115200
-        f.flow_control = SerialPort::NONE
-        f.read_timeout = 500
-        f.write command + "\n"
-        retval = f.read
-      end
-    end
-    Rails.logger.info(retval)
-    retval
-  end
   def arduino_command command
     candidate_files = ["/dev/ttyUSB0","/dev/ttyUSB1","/dev/ttyACM0"]
     retval = "@arduino_file does not exist"
@@ -103,8 +74,7 @@ class CrawlerController < ApplicationController
       candidate_files.each do |cf|
         begin
           if File.exists?(cf)
-            Rails.logger.error("*****************************Opening the Serial Port...#{cf}")
-            @@arduino = SerialPort.new("/dev/ttyUSB0", {baud: 300, databits: 8, stopbits: 1})
+            @@arduino = SerialPort.new(cf, {baud: 300, databits: 8, stopbits: 1})
             @@arduino.baud = 115200
             @@arduino.flow_control = SerialPort::NONE
             @@arduino.read_timeout = 50

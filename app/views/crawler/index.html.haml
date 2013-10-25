@@ -4,7 +4,7 @@
       Joystick Controls
     .outer
       .inner
-        %img.background-image{src: '/crawler/image.jpg'}
+        %img#webcam.background-image{src: 'http://alarmpi:8080/?action=stream'}
   %h1.js-bottom
     = link_to "Switch to Slider",crawler_slider_path
 
@@ -13,20 +13,41 @@
 = javascript_include_tag "#{controller.controller_name}/#{controller.action_name}"
 
 :javascript
-  var failsafe = null
-  $('document').ready(function () {
-  window.load_delay = 500;
-  function refresh_image() {
-    if(failsafe) {
-      clearTimeout(failsafe);
+  /* Copyright (C) 2007 Richard Atterer, richardÂ©atterer.net
+     This program is free software; you can redistribute it and/or modify it
+     under the terms of the GNU General Public License, version 2. See the file
+     COPYING for details. */
+
+  var imageNr = 0; // Serial number of current image
+  var finished = new Array(); // References to img objects which have finished downloading
+  var paused = false;
+
+  function createImageLayer() {
+    var img = new Image();
+    img.style.position = "absolute";
+    img.style.zIndex = -1;
+    img.onload = imageOnload;
+    img.onclick = imageOnclick;
+    img.src = "/?action=snapshot&n=" + (++imageNr);
+    var webcam = document.getElementById("webcam");
+    webcam.insertBefore(img, webcam.firstChild);
     }
-    d = new Date()
-    current_time = d.getTime();
-    $(".background-image").attr("src","/crawler/image.jpg?" + d.getTime())
-    failsafe = setTimeout(refresh_image,5000);
+
+  // Two layers are always present (except at the very beginning), to avoid flicker
+  function imageOnload() {
+    this.style.zIndex = imageNr; // Image finished, bring to front!
+    while (1 < finished.length) {
+      var del = finished.shift(); // Delete old image(s) from document
+      del.parentNode.removeChild(del);
+    }
+  finished.push(this);
+  if (!paused) createImageLayer();
   }
-  $(".background-image").on("load", function () {
-    setTimeout(refresh_image,window.load_delay);
-    });
-  refresh_image();
-  });
+
+  function imageOnclick() { // Clicking on the image will pause the stream
+  paused = !paused;
+  if (!paused) createImageLayer();
+  }
+  $('document').ready(function () {
+    createImageLayer();
+  }
