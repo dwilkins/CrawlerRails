@@ -67,12 +67,12 @@ class CrawlerController < ApplicationController
     respond_with() do |format|
       format.jpg {
         expires_now()
-        send_data `/usr/bin/fswebcam -d /dev/video0 --quiet --jpeg -1 -` , filename: 'image.jpg', :type => 'image/jpeg', :disposition => 'inline'
+        send_data `/usr/bin/fswebcam -d /dev/video0 -S 2 --quiet --jpeg -1 -` , filename: 'image.jpg', :type => 'image/jpeg', :disposition => 'inline'
       }
-      format.jpg {
+      format.png {
         `/usr/bin/fswebcam -d /dev/video0 #{Rails.root}/tmp/camera.png`
         expires_now()
-        send_data `/usr/bin/fswebcam -d /dev/video0 --quiet --png -1 -` , filename: 'image.png', :type => 'image/jpeg', :disposition => 'inline'
+        send_data `/usr/bin/fswebcam -d /dev/video0 -S 2 --quiet --png -1 -` , filename: 'image.png', :type => 'image/jpeg', :disposition => 'inline'
       }
     end
   end

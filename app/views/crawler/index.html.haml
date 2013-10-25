@@ -13,12 +13,17 @@
 = javascript_include_tag "#{controller.controller_name}/#{controller.action_name}"
 
 :javascript
+  var failsafe = null
   $('document').ready(function () {
-  window.load_delay = 1000;
+  window.load_delay = 500;
   function refresh_image() {
+    if(failsafe) {
+      clearTimeout(failsafe);
+    }
     d = new Date()
     current_time = d.getTime();
     $(".background-image").attr("src","/crawler/image.jpg?" + d.getTime())
+    failsafe = setTimeout(refresh_image,5000);
   }
   $(".background-image").on("load", function () {
     setTimeout(refresh_image,window.load_delay);
